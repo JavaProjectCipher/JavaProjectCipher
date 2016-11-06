@@ -1,33 +1,31 @@
 package Beginn;
 import java.util.*;
 class RandomString {
-	public char randomeng() {
+	public char randomchar() {
 	    Random r = new Random();
 	    double rand = Math.random();
 	    char randchar;
-	    if (rand <= 0.5) {
+	    if (rand <= 0.3) {
 	    	randchar = (char) (65 + r.nextInt(26));
 	    }
-	    else {
+	    else if (rand <= 0.6) {
 	    	randchar = (char) (97 + r.nextInt(26));
+	    }
+	    else {
+	    	randchar = (char) ((rand * 11172) + 0xAC00);
 	    }
 	    return randchar;
 	}
-	public char randomhan() {
-	    char randchar = (char) ((Math.random() * 11172) + 0xAC00);
-	    return randchar;
-	}
-    void makeRandom(int key, int han) {
+    void makeRandom(int key) {
     	Scanner sc = new Scanner(System.in);
     	StringBuffer sb = new StringBuffer();
     	String ori = new String();
-    	System.out.println("Type the Original Sentense");
+    	System.out.println("Input the Original Sentense");
     	ori = sc.nextLine();
 	    for (int i=0; i<ori.length();i++) {
 	    	sb.append(ori.charAt(i));
 	    	for (int j = 0;j < key;j++) {
-	    		if (han == 0) sb.append(this.randomeng());
-	    		else sb.append(this.randomhan());
+	    		sb.append(this.randomchar());
 	    	}
 	    }
 	    System.out.println(sb);
@@ -37,7 +35,7 @@ class RandomString {
     	Scanner sc = new Scanner(System.in);
     	StringBuffer newsb = new StringBuffer();
     	String ci = new String();
-		System.out.println("\nPlease Type A Ciphered Sentense.");
+		System.out.println("\nPlease Input A Ciphered Sentense.");
     	ci = sc.nextLine();
 	    for (int i=0; i<ci.length();i+=key+1) {
 	    	newsb.append(ci.charAt(i));
@@ -52,26 +50,16 @@ public class Scytale {
 		String ori = new String();
 		int flag;
 		int key = (int) (Math.random()*9 + 1);
-		System.out.println("JAVA ANALOG/DIGITAL CIPHER PROGRAM : TYPE SCYTALE");
-		System.out.println("Type the Cipher Service & Language of Your Sentenses.\n");
-		System.out.println("1. English Cipher   2. English DeCipher");
-		System.out.println("3. 한글 암호화                        4. 한글 복호화\n");
+		System.out.println("JAVA ANALOG/DIGITAL CIPHER PROGRAM : Input SCYTALE");
+		System.out.println("Input 1 to Encryption(암호화)");
+		System.out.println("Input 2 to Decryption(복호화)");
 		flag = sc.nextInt();
 		switch (flag) {
 		case 1:
-			r.makeRandom(key, 0);
+			r.makeRandom(key);
 			break;
 		case 2:
-			System.out.print("Type the Key Value : ");
-			key = sc.nextInt();
-			r.decodeRandom(key);
-			break;
-		case 3:
-			ori = sc.nextLine();
-			r.makeRandom(key, 1);
-			break;
-		case 4:
-			System.out.print("Type the Key Value : ");
+			System.out.print("Input the Key Value : ");
 			key = sc.nextInt();
 			r.decodeRandom(key);
 			break;
