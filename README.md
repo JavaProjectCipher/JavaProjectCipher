@@ -8,6 +8,11 @@
 * 버그 수정 등 조금한 변경 사항 빼고, 되도록이면 커밋 제목은 버전명
 * 같은 파일을 두명이서 동시에 수정하는 경우, Sync가 안되니 주의
 
+# works!!(IMPORTANT)
+1. web develop
+2. change url
+3. fix bugs
+
 ##Todo List(시간 순)
 0. 팀원 깃허브 가입
 1. 기획서 제출
