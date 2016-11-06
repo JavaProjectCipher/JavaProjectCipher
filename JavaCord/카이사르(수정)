@@ -1,14 +1,15 @@
 package Beginn;
 import java.util.*;
-public class Caesar {
-	public static void main(String[] args) {
+import java.io.*;
+class Caesar {
+	public static void main(String[] args) throws IOException {
 		Scanner sc = new Scanner(System.in);
-		Han han = new Han();
-		Eng eng = new Eng();
-		int key = (int) (Math.random()*20) + 1;
-		int hankey = (int) (Math.random()*20) + 25;
-		System.out.println("JAVA ANALOG/DIGITAL CIPHER PROGRAM : TYPE CAESAR\n");
-		System.out.println("Type the Cipher Service & Language of Your Sentenses.\n");
+		Hangul han = new Hangul();
+		English eng = new English();
+		int key = (int) (Math.random()*20) + 5;
+		int hankey = (int) (Math.random()*25) + 50;
+		System.out.println("JAVA ANALOG/DIGITAL CIPHER PROGRAM : TYPE CAESAR");
+		System.out.println("Type the Cipher Service & Language of Your Sentenses.");
 		System.out.println("1. English Cipher   2. English DeCipher");
 		System.out.println("3. 한글 암호화                        4. 한글 복호화\n");
 		int flag = sc.nextInt();
@@ -26,7 +27,7 @@ public class Caesar {
 			break;
 		case 4:
 			System.out.print("Type the Key Value : ");
-			key = sc.nextInt();
+			hankey = sc.nextInt();
 			han.deci(hankey);
 			break;
 		default:
@@ -34,7 +35,7 @@ public class Caesar {
 		}
 	}
 }
-class Eng {
+class English {
 	protected void ci(int key) {
 		Scanner sc = new Scanner(System.in);
 		String ori = new String();
@@ -58,37 +59,98 @@ class Eng {
 			reqbyte[i] = (byte) req.charAt(i);
 			System.out.print((char) (reqbyte[i] + key)); // 해독한 원문
 		}
-		
-		/* for (int i=0;i<ori.length();i++) {
-			System.out.print((char) (cipher[i] + key));
-		} */
 	}
 }
-class Han {
-	protected void ci(int key) {
+class Hangul{
+	public void ci(int key) throws IOException {
+		FileInputStream input;
 		Scanner sc = new Scanner(System.in);
-		String ori = new String();
+		byte[] ori = new byte[100];
+		int len;
+		int flag = 0;
 		System.out.println("Please Type An Original Sentense.");
-		ori = sc.nextLine();
-		int[] hanint = new int[ori.length()];
-		char[] cipher = new char[ori.length()];
-		for (int i = 0;i<ori.length();i++) {
-			hanint[i] = (int) ori.charAt(i) + key;
-			cipher[i] = (char) hanint[i];
+		len = System.in.read(ori, 0, 100);
+		String tmp = this.getString(ori);
+		int parseint;
+		int pass;
+		int[] hanint = new int[tmp.length()];
+		char[] cipher = new char[tmp.length()];
+		for (int i = 0;i<tmp.length();i++) {
+			if (tmp.charAt(i) == ' ') {
+				hanint[i] = 32; // Ascii
+			} else if (Character.isDigit(tmp.charAt(i))) {
+				parseint = Character.getNumericValue(tmp.charAt(i));
+				pass = (parseint + key%10)%10;
+				cipher[i] = Integer.toString(pass).charAt(0);
+				flag = 1;
+			}
+			else {
+				hanint[i] = (int) (tmp.charAt(i) + key);
+			}
+			if (hanint[i] > 55203) { // 힣(유니코드 마지막) : 55203
+				hanint[i] -= 11172; // 가~힣까지의 차 + 1
+			}
+			if (flag == 0) cipher[i] = (char) hanint[i];
 			System.out.print(cipher[i]); // 암호문
+			flag = 0;
 		}
 		System.out.println("\nUsed Key Value : " + key);		
 	}
-	protected void deci(int key) {
+	protected void deci(int key) throws IOException {
 		Scanner sc = new Scanner(System.in);
-		String req = new String(); // request(암호문 입력)
 		System.out.println("Please Type A Ciphered Sentense.");
-		req = sc.nextLine();
+		byte[] inreq = new byte[100];
+		int len;
+		int parseint;
+		int intpret; // 해석
+		int flag = 0;
+		len = System.in.read(inreq, 0, 100);	
+		String req = this.getString(inreq); // request(암호문 입력)
+		char[] newori = new char[req.length()];
 		int[] reqint = new int[req.length()];
 		System.out.print("\nOriginal Sentense : ");
 		for (int i = 0;i<req.length();i++) {
-			reqint[i] = (int) req.charAt(i);
-			System.out.print((char) (reqint[i] - key)); // 해독한 원문
+			if (req.charAt(i) == ' ') { //공백이면
+				reqint[i] = 32; // 공백이다
+				System.out.print(" ");
+				continue;
+			}
+			else if (Character.isDigit(req.charAt(i))) {
+				parseint = Character.getNumericValue(req.charAt(i));
+				intpret = (parseint + 10 - key%10)%10;
+				newori[i] = Integer.toString(intpret).charAt(0);
+				flag = 1;
+			}
+			else {
+				reqint[i] = (int) (req.charAt(i) - key);
+			}
+			if (reqint[i] < 44032) { // 가(유니코드 처음) : 44032
+				reqint[i] += 11172; // 가~힣까지의 차 + 1
+			}
+			if (flag == 0) newori[i] = (char) reqint[i];
+			System.out.print(newori[i]); // 해독한 원문
+			flag = 0;
 		}
 	}
+	public String getString(byte[] input) {
+         StringBuffer  rtn  =  new  StringBuffer();
+         for(int i=0;i<input.length;)
+         {
+        	 if((input[i]&0x80) == 0x80) {
+                 byte[] kor = new byte[2];
+                 kor[0] = input[i];
+                 kor[1] = input[++i];
+                 System.out.println();
+                 rtn.append(new String(kor));
+                 }
+             else if (input[i] == ' ') {
+            	 rtn.append((char)input[i]);
+             }
+             else if (Character.isDigit((char)input[i])) {
+            	 rtn.append((char)input[i]);
+             }
+             ++i;
+         }
+         return rtn.toString();
+	 }
 }
