@@ -140,7 +140,6 @@ class Hangul{
                  byte[] kor = new byte[2];
                  kor[0] = input[i];
                  kor[1] = input[++i];
-                 System.out.println();
                  rtn.append(new String(kor));
                  }
              else if (input[i] == ' ') {
