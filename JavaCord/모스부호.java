@@ -29,11 +29,7 @@ class Beep {
      public static void tone(int hz, int msecs, double vol)  
                throws LineUnavailableException {  
           byte[] buf = new byte[1];  
-          AudioFormat AF = new AudioFormat(SAMPLE_RATE, // sampleRate  
-                    8, // sampleSizeInBits  
-                    1, // channels  
-                    true, // signed  
-                    false); // bigEndian  
+          AudioFormat AF = new AudioFormat(SAMPLE_RATE,8,1,true,false);
           SourceDataLine sound = AudioSystem.getSourceDataLine(AF);  
           sound.open(AF);  
           sound.start();  
