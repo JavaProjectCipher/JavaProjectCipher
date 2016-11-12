@@ -1,4 +1,4 @@
-package main;
+// package main; <- 컴퓨터에 따라 필요할 수도 있습니다
 import java.lang.*;
 import java.util.*;
 import java.awt.Desktop;
