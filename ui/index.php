@@ -41,6 +41,8 @@
     <link href='https://fonts.googleapis.com/css?family=Playfair+Display|Raleway:700,100,400|Roboto:400,700|Playfair+Display+SC:400,700' rel='stylesheet' type='text/css'>
 		<script src="./riffwave.js"></script>
 		<script>
+		var agent = navigator.userAgent.toLowerCase();
+
 				function simHertz(hz, length) {
 		    var audio = new Audio();
 		    var wave = new RIFFWAVE();
@@ -60,7 +62,17 @@
 			}
 			var audio = simHertz(440);
 			function play(){
+
 			<?php if($_GET['method'] == 1 && $_GET['type']=='en'){
+				?>
+				if (agent.search("trident") > -1) {
+						alert("인터넷익스플로러는 지원되지 않습니다. 크롬또는 파이어폭스를 이용해주세요.");
+						}
+				else if(agent.search("edge/") > -1){
+					alert("Edge는 지원되지 않습니다. 크롬또는 파이어폭스를 이용해주세요.");
+				}
+
+				<?php
 					for($i = 1; $i<=strlen($_GET['text'])/6; $i++){
 						$key = substr($_GET['text'],($i-1)*6,6);
 						if(substr($key,3,3) == "000"){
@@ -386,7 +398,7 @@
 													<div class="filter"></div>
 
 													<div class="actions">
-															<button class="btn btn-round btn-fill btn-neutral btn-modern" onclick="location.href='http://bongsnet.tistory.com/76'" >
+															<button class="btn btn-round btn-fill btn-neutral btn-modern" onclick="location.href='https://github.com/JavaProjectCipher/JavaProjectCipher/blob/master/ui/index.php'" >
 																소스보기
 															</button>
 													</div>
@@ -397,6 +409,7 @@
 													<h4 class="title"><a href="#">Web</a></h4>
 													<p class="description"></p>
 											</div>
+
 									</div> <!-- end card -->
 							 </div>
 
