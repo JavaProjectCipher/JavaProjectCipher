@@ -5,6 +5,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.io.*;
 import javax.sound.sampled.*;  
 
@@ -210,7 +211,10 @@ class e2{
 				cipher[i] = (byte) (ori.charAt(i) - key);
 				temp += ((char) cipher[i]);
 			}
-			Desktop.getDesktop().browse(new URI("https://java.gdb.kr/?type=en&method=2&text="+temp+"&key="+key));
+			URI uri = new URI( String.format( 
+                    "https://java.gdb.kr/?type=en&method=2&text=%s&key="+key, 
+                    URLEncoder.encode(temp,"UTF8" ) ) );
+			Desktop.getDesktop().browse(uri);
 //			System.out.println("\nUsed Key Value : " + key);
 		}
 		protected void deci(int key) throws IOException, URISyntaxException {
@@ -225,7 +229,10 @@ class e2{
 				reqbyte[i] = (byte) req.charAt(i);
 				temp += ((char) (reqbyte[i] + key)); // 해독한 원문
 			}
-			Desktop.getDesktop().browse(new URI("https://java.gdb.kr/?type=de&method=2&text="+temp));
+			URI uri = new URI( String.format( 
+                    "https://java.gdb.kr/?type=de&method=2&text=%s", 
+                    URLEncoder.encode(temp,"UTF8" ) ) );
+			Desktop.getDesktop().browse(uri);
 
 		}
 	}
@@ -263,7 +270,10 @@ class e2{
 				temp += (cipher[i]); // 암호문
 				flag = 0;
 			}
-			Desktop.getDesktop().browse(new URI("https://java.gdb.kr/?type=en&method=2&text="+temp+"&key="+key));
+			URI uri = new URI( String.format( 
+                    "https://java.gdb.kr/?type=en&method=2&text=%s&key="+key, 
+                    URLEncoder.encode(temp,"UTF8" ) ) );
+			Desktop.getDesktop().browse(uri);
 		}
 		protected void deci(int key) throws IOException, URISyntaxException {
 			String temp = "";
@@ -301,7 +311,10 @@ class e2{
 				temp += (newori[i]); // 해독한 원문
 				flag = 0;
 			}
-			Desktop.getDesktop().browse(new URI("https://java.gdb.kr/?type=de&method=2&text="+temp));
+			URI uri = new URI( String.format( 
+                    "https://java.gdb.kr/?type=en&method=2&text=%s&key="+key, 
+                    URLEncoder.encode(temp,"UTF8" ) ) );
+			Desktop.getDesktop().browse(uri);
 
 		}
 		public String getString(byte[] input) {
@@ -388,7 +401,11 @@ class passwording{
 				temp += (pw2[j1][z]); 
 			}
 		}
-		Desktop.getDesktop().browse(new URI("https://java.gdb.kr/?type=en&method=3&text="+temp));
+		URI uri = new URI( String.format( 
+                "https://java.gdb.kr/?type=en&method=3&text=%s", 
+                URLEncoder.encode(temp,"UTF8" ) ) );
+
+		Desktop.getDesktop().browse(uri);
 
 	
 		System.out.println();
@@ -410,7 +427,11 @@ class passwording{
 				temp += (pw3[m][z]); 
 			}
 		}
-		Desktop.getDesktop().browse(new URI("https://java.gdb.kr/?type=de&method=3&text="+temp));
+		uri = new URI( String.format( 
+                "https://java.gdb.kr/?type=de&method=3&text=%s", 
+                URLEncoder.encode(temp,"UTF8" ) ) );
+
+		Desktop.getDesktop().browse(uri);
 
 	}
 }
@@ -446,7 +467,11 @@ class e4{
 		    		sb.append(this.randomchar());
 		    	}
 		    }
-			Desktop.getDesktop().browse(new URI("https://java.gdb.kr/?type=en&method=4&text="+sb+"&key="+key));
+		    String temp = sb.toString();
+			URI uri = new URI( String.format( 
+                    "https://java.gdb.kr/?type=en&method=2&text=%s&key="+key, 
+                    URLEncoder.encode(temp,"UTF8" ) ) );
+			Desktop.getDesktop().browse(uri);
 //		    System.out.println(sb);
 //		    System.out.println("Used Key Value : " + key);
 	    }
@@ -459,7 +484,13 @@ class e4{
 		    for (int i=0; i<ci.length();i+=key+1) {
 		    	newsb.append(ci.charAt(i));
 		    }
-			Desktop.getDesktop().browse(new URI("https://java.gdb.kr/?type=de&method=4&text="+newsb));
+		    String temp = newsb.toString();
+			URI uri = new URI( String.format( 
+                    "https://java.gdb.kr/?type=en&method=2&text=%s", 
+                    URLEncoder.encode(temp,"UTF8" ) ) );
+			Desktop.getDesktop().browse(uri);
+
+//			Desktop.getDesktop().browse(new URI("https://java.gdb.kr/?type=de&method=4&text="+newsb));
 
 //		    System.out.println(newsb);
 	    }
